@@ -49,11 +49,14 @@ func getLEDstatus(context *gin.Context) {
 	}
 	if data_control.Mode == "auto" {
 		var tmp = sensor{
-			Brightness: data_sensor.Brightness/100,
+			Brightness: data_sensor.Brightness/8,
 			Color:      data_sensor.Color,
 		}
-		if(tmp.Brightness > 800){
+		if(tmp.Brightness > 100){
 			tmp.Brightness = 100
+		}
+		if(tmp.Brightness < 20){
+			tmp.Brightness = 20
 		}
 		context.IndentedJSON(http.StatusOK, tmp)
 		return
