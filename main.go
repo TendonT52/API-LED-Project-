@@ -1,8 +1,11 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 type control struct {
@@ -98,9 +101,13 @@ func postData(context *gin.Context) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	router := gin.Default()
 	router.GET("/led", getLEDstatus)
 	router.POST("/control", postData)
 	router.POST("/sensor", postSensor)
-	router.Run("localhost:8080")
+	router.Run(":" + port)
 }
