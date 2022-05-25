@@ -49,8 +49,11 @@ func getLEDstatus(context *gin.Context) {
 	}
 	if data_control.Mode == "auto" {
 		var tmp = sensor{
-			Brightness: data_sensor.Brightness,
+			Brightness: data_sensor.Brightness/100,
 			Color:      data_sensor.Color,
+		}
+		if(tmp.Brightness > 800){
+			tmp.Brightness = 100
 		}
 		context.IndentedJSON(http.StatusOK, tmp)
 		return
@@ -65,7 +68,7 @@ func postSensor(context *gin.Context) {
 		return
 	}
 	if temp.Brightness < 0 {
-		context.String(http.StatusBadRequest, "Wrong data! brightness in json must be int between 0 to 100")
+		context.String(http.StatusBadRequest, "Wrong data! brightness in json must be more than 0")
 		return
 	}
 	if len(temp.Color) != 7 || temp.Color[0] != '#' {
@@ -87,7 +90,7 @@ func postData(context *gin.Context) {
 		context.String(http.StatusBadRequest, "Wrong data! mode in json must be auto or normal or off in all lowercase only")
 		return
 	}
-	if temp.Brightness < 0 {
+	if temp.Brightness > 100 || temp.Brightness < 0 {
 		context.String(http.StatusBadRequest, "Wrong data! brightness in json must be int between 0 to 100")
 		return
 	}
