@@ -60,6 +60,15 @@ func getLEDstatus(context *gin.Context) {
 	}
 }
 
+func getShowStatus(context *gin.Context) {
+	var tmp = control{
+		Mode: data_control.Mode,
+		Brightness: data_sensor.Brightness,
+		Color:      data_sensor.Color,
+	}
+	context.IndentedJSON(http.StatusOK, tmp)
+}
+
 func postSensor(context *gin.Context) {
 	var temp sensor
 	err := context.BindJSON(&temp)
@@ -110,6 +119,7 @@ func main() {
 	}
 	router := gin.Default()
 	router.GET("/led", getLEDstatus)
+	router.GET("/show", getShowStatus)
 	router.POST("/control", postData)
 	router.POST("/sensor", postSensor)
 	router.Run(":" + port)
