@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 type control struct {
@@ -124,9 +125,12 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 	router := gin.Default()
+	router.Use(cors.Default())
+
 	router.GET("/led", getLEDstatus)
 	router.GET("/show", getShowStatus)
 	router.POST("/control", postData)
 	router.POST("/sensor", postSensor)
+	
 	router.Run(":" + port)
 }
