@@ -61,7 +61,7 @@ func postSensor(context *gin.Context) {
 		context.String(http.StatusBadRequest, "Decode error! please check your JSON formating.")
 		return
 	}
-	if temp.Brightness > 100 || temp.Brightness < 0 {
+	if temp.Brightness < 0 {
 		context.String(http.StatusBadRequest, "Wrong data! brightness in json must be int between 0 to 100")
 		return
 	}
@@ -84,7 +84,7 @@ func postData(context *gin.Context) {
 		context.String(http.StatusBadRequest, "Wrong data! mode in json must be auto or normal or off in all lowercase only")
 		return
 	}
-	if temp.Brightness > 100 || temp.Brightness < 0 {
+	if temp.Brightness < 0 {
 		context.String(http.StatusBadRequest, "Wrong data! brightness in json must be int between 0 to 100")
 		return
 	}
