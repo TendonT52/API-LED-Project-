@@ -87,6 +87,9 @@ func postSensor(context *gin.Context) {
 		context.String(http.StatusBadRequest, "Wrong data! color in json must be start by # follow by 6 charater")
 		return
 	}
+	if(temp.Brightness > 9999){
+		temp.Brightness = 9999
+	}
 	data_sensor = temp
 	context.IndentedJSON(http.StatusCreated, data_sensor)
 }
